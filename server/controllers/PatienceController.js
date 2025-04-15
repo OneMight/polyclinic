@@ -24,7 +24,7 @@ class PatienceController{
                 idCard,
             })
             return res.status(200).json(patience);
-        } catch(e){
+        } catch(error){
             return res.status(500).json('Internal server error '+error);
         }
     }

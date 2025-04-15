@@ -47,22 +47,60 @@ const Report = sequelize.define('Report',{
     idTicket:{type:DataTypes.BIGINT, allowNull:false},
 })
 
-Employee.hasMany(Appoitment);
-Appoitment.belongsTo(Employee);
-
-Patience.hasOne(Ticket);
-Ticket.belongsTo(Patience);
-
-Ticket.hasOne(Appoitment);
-Appoitment.belongsTo(Ticket);
-
-Diagnosis.hasMany(Appoitment);
-Appoitment.belongsTo(Diagnosis);
-
-Report.hasMany(Appoitment);
-Appoitment.belongsTo(Report);
-
-Report.hasMany(Ticket);
-Ticket.belongsTo(Report);
+Employee.hasMany(Appoitment, {
+    foreignKey: 'idEmployee',
+  });
+  
+  Appoitment.belongsTo(Employee, {
+    foreignKey: 'idEmployee',
+    targetKey: 'idEmployee',
+  });
+  Patience.hasOne(Ticket, {
+    foreignKey: 'idPatience',   
+    sourceKey: 'idPatience',   
+  });
+  
+  Ticket.belongsTo(Patience, {
+    foreignKey: 'idPatience',
+    targetKey: 'idPatience',   
+  });
+  Ticket.hasOne(Appoitment, {
+    foreignKey: 'idTicket',
+    sourceKey: 'idTicket',
+  });
+  Appoitment.belongsTo(Ticket, {
+    foreignKey: 'idTicket',
+    targetKey: 'idTicket',
+  });
+  
+  // Diagnosis → Appoitment (1:M)
+  Diagnosis.hasMany(Appoitment, {
+    foreignKey: 'idDiagnose',
+    sourceKey: 'idDiagnose',
+  });
+  Appoitment.belongsTo(Diagnosis, {
+    foreignKey: 'idDiagnose',
+    targetKey: 'idDiagnose',
+  });
+  
+  // Report → Appoitment (1:M)
+  Report.hasMany(Appoitment, {
+    foreignKey: 'idReport',
+    sourceKey: 'idReport',
+  });
+  Appoitment.belongsTo(Report, {
+    foreignKey: 'idReport',
+    targetKey: 'idReport',
+  });
+  
+  // Report → Ticket (1:M)
+  Report.hasMany(Ticket, {
+    foreignKey: 'idReport',
+    sourceKey: 'idReport',
+  });
+  Ticket.belongsTo(Report, {
+    foreignKey: 'idReport',
+    targetKey: 'idReport',
+  });
 
 module.exports = {Employee, Appoitment, Patience, Ticket, Diagnosis, Report}

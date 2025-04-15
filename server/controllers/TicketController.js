@@ -17,12 +17,13 @@ class TicketController{
     async createTicket(req,res){
         const {cost, goal, date, FIO_Patience} = req.body;
         try{
-            const patience = await Patience.findAll({
+            const patience = await Patience.findOne({
                 where:{
                     FIO_Patience: FIO_Patience,
                 }
             })
-            const ticket = await Patience.create({
+            console.error(patience);
+            const ticket = await Ticket.create({
                 cost,
                 goal,
                 date,
@@ -30,7 +31,7 @@ class TicketController{
             })
             return res.status(200).json(ticket);
         } catch(e){
-            return res.status(500).json('Internal server error '+error);
+            return res.status(500).json('Internal server error '+e);
         }
     }
 }
